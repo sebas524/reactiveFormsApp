@@ -2,7 +2,7 @@
 <hr />
 
 <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  <!-- Nombre -->
+  <!-- name -->
   <div class="mb-3 row">
     <label class="col-sm-3 col-form-label">name</label>
     <div class="col-sm-9">
@@ -11,19 +11,25 @@
         placeholder="name of person"
         formControlName="name"
       />
-      <span class="form-text text-danger"> error message </span>
+      <span *ngIf="isFieldValid('name')" class="form-text text-danger">
+        error message
+      </span>
     </div>
   </div>
 
   <!-- !ADD TO FAVORITES: -->
   <div class="mb-3 row">
-    <label class="col-sm-3 col-form-label">Agregar</label>
+    <label class="col-sm-3 col-form-label">add</label>
     <div class="col-sm-9">
       <div class="input-group">
-        <input class="form-control" placeholder="Agregar favorito" />
+        <input
+          class="form-control"
+          placeholder="Agregar favorito"
+          [formControl]="newFavorite"
+        />
 
-        <button class="btn btn-outline-primary" type="button">
-          Agregar favorito
+        <button (click)="onAdd()" class="btn btn-outline-primary" type="button">
+          add favorite
         </button>
       </div>
     </div>
@@ -41,9 +47,19 @@
         <div class="input-group">
           <input [formControlName]="i" class="form-control" />
 
-          <button class="btn btn-outline-danger" type="button">delete</button>
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            (click)="onDelete(i)"
+          >
+            delete
+          </button>
         </div>
-        <span class="form-text text-danger">this field is required! </span>
+        <span
+          *ngIf="isFieldValidInArray(favorites, i)"
+          class="form-text text-danger"
+          >this field is required!
+        </span>
       </div>
       <!-- * -->
     </div>
@@ -60,13 +76,13 @@
 </form>
 
 <span>Valid</span>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ myForm.valid | json }}</pre>
 <br />
 
 <span>Value</span>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ myForm.value | json }}</pre>
 <br />
 
 <span>Agregar Juego</span>
-<pre>{{ "object" | json }}</pre>
-<pre>{{ "object" | json }}</pre>
+<pre>{{ newFavorite.valid | json }}</pre>
+<pre>{{ newFavorite.value | json }}</pre>
